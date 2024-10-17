@@ -1,0 +1,17 @@
+linter:
+  rules:
+    avoid_print: true
+    prefer_const_constructors: true
+    always_specify_types: true
+
+analyzer:
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
+
+  errors:
+    unused_import: error
+    dead_code: error
+
+exclude:
+  - "**/*.g.dart"
