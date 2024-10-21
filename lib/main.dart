@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:trade_watch_tickers/core/injection/injection_container.dart' as di;
+import 'package:trade_watch_tickers/features/trading/presentation/bloc/stock_list_bloc.dart';
+import 'package:trade_watch_tickers/features/trading/presentation/pages/stock_list_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  di.setupDependencies();
   runApp(const MyApp());
 }
 
@@ -20,52 +26,11 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Tickers'),
+      home: BlocProvider<StockListBloc>(
+        create: (_) => di.di<StockListBloc>(),
+        child: StockListPage(),
+      ),
       debugShowCheckedModeBanner: false,
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-        title: Text(widget.title, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
-      ),
-      body: ListView.builder(
-        physics: const ClampingScrollPhysics(),
-        itemBuilder: (BuildContext context, int index) {
-          return Column(
-            children: <Widget>[
-              ListTile(
-                tileColor: Theme.of(context).colorScheme.primary,
-                title: Text('Item $index',
-                    style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
-                trailing: Icon(
-                  Icons.auto_graph,
-                  color: Theme.of(context).colorScheme.onPrimary,
-                ),
-              ),
-              Divider(
-                color: Theme.of(context).colorScheme.onPrimary,
-                thickness: .1,
-                height: .1,
-              )
-            ],
-          );
-        },
-      ),
     );
   }
 }
